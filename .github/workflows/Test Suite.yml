@@ -24,6 +24,18 @@ jobs:
           # python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
+      - name: Install Firefox
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y firefox
+
+      - name: Install GeckoDriver
+        run: |
+          wget https://github.com/mozilla/geckodriver/releases/latest/download/geckodriver-v0.35.0-linux64.tar.gz
+          tar -xvzf geckodriver-v0.35.0-linux64.tar.gz
+          sudo mv geckodriver /usr/local/bin/
+          sudo chmod +x /usr/local/bin/geckodriver
+      
       # - name: Set up Chrome
       #   run: |
       #     # Install Google Chrome (if not already installed)
