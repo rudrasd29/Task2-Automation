@@ -43,10 +43,13 @@ jobs:
           # Check the Chrome version for correctness
           echo "Fetching ChromeDriver for version: $CHROME_VERSION"
           
-          # Fetch the correct ChromeDriver version
-          CHROME_DRIVER_VERSION=$(curl -sSL "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION" | tr -d '\n')
+          # Fetch the latest compatible ChromeDriver version
+          CHROME_DRIVER_VERSION=$(curl -sSL "https://chromedriver.storage.googleapis.com/LATEST_RELEASE" | tr -d '\n')
+
+          # Alternatively, to get a specific version based on major version
+          MAJOR_VERSION=$(echo $CHROME_VERSION | cut -d '.' -f 1)
+          CHROME_DRIVER_VERSION=$(curl -sSL "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$MAJOR_VERSION" | tr -d '\n')
           
-          # Output the fetched ChromeDriver version for verification
           echo "ChromeDriver version fetched: $CHROME_DRIVER_VERSION"
           
           # If the version is not found, exit
