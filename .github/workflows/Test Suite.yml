@@ -44,14 +44,14 @@ jobs:
           echo "Fetching ChromeDriver for version: $CHROME_VERSION"
           
           # Fetch the correct ChromeDriver version
-          CHROME_DRIVER_VERSION=$(curl -sSL "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
+          CHROME_DRIVER_VERSION=$(curl -sSL "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION" | tr -d '\n')
           
           # Output the fetched ChromeDriver version for verification
           echo "ChromeDriver version fetched: $CHROME_DRIVER_VERSION"
           
           # If the version is not found, exit
-          if [[ -z "$CHROME_DRIVER_VERSION" ]]; then
-            echo "No ChromeDriver version found for Chrome version $CHROME_VERSION"
+          if [[ -z "$CHROME_DRIVER_VERSION" || "$CHROME_DRIVER_VERSION" == *"NoSuchKey"* ]]; then
+            echo "No valid ChromeDriver version found for Chrome version $CHROME_VERSION"
             exit 1
           fi
 
