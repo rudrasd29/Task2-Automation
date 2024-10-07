@@ -5,12 +5,12 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
 
-@pytest.fixture
+@pytest.fixture(scope="function")
 def setup(browser):
     if browser == 'chrome':
         ops = webdriver.ChromeOptions()
-        ops.add_argument('--headless')
-        ops.add_argument('--disable-gpu')
+        # ops.add_argument('--headless')
+        # ops.add_argument('--disable-gpu')
         ops.add_argument('--disable-notifications')
         driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install(), options=ops))
         driver.maximize_window()
@@ -18,8 +18,8 @@ def setup(browser):
         driver.quit()
     elif browser == 'firefox':
         ops = webdriver.FirefoxOptions()
-        ops.add_argument('--headless')
-        ops.add_argument('--disable-notifications')
+        # ops.add_argument('--headless')
+        # ops.add_argument('--disable-notifications')
         driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
         driver.maximize_window()
         yield driver
@@ -28,7 +28,7 @@ def setup(browser):
 
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="chrome")
-    parser.addoption("--headless", default="false")
+    # parser.addoption("--headless", default="false")
 
 @pytest.fixture
 def browser(request):
