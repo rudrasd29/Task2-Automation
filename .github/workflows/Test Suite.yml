@@ -24,68 +24,9 @@ jobs:
           # python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
-      - name: Install Firefox
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y firefox
-
-      - name: Install GeckoDriver
-        run: |
-          wget https://github.com/mozilla/geckodriver/releases/latest/download/geckodriver-v0.35.0-linux64.tar.gz
-          tar -xvzf geckodriver-v0.35.0-linux64.tar.gz
-          sudo mv geckodriver /usr/local/bin/
-          sudo chmod +x /usr/local/bin/geckodriver
-      
-      # - name: Set up Chrome
-      #   run: |
-      #     # Install Google Chrome (if not already installed)
-      #     wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-      #     echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-      #     sudo apt-get update
-      #     sudo apt-get install -y google-chrome-stable
-
-      # - name: Fetch Chrome Version
-      #   id: get-chrome-version
-      #   run: |
-      #     CHROME_VERSION=$(google-chrome --version | cut -d ' ' -f 3)
-      #     echo "CHROME_VERSION=$CHROME_VERSION" >> $GITHUB_ENV
-
-      # - name: Fetch ChromeDriver
-      #   run: |
-      #     echo "Fetching ChromeDriver for version: $CHROME_VERSION"
-
-      #     # Extract major and minor version
-      #     MAJOR_VERSION=$(echo $CHROME_VERSION | cut -d '.' -f 1-2)  # Extracts 129.0
-
-      #     echo "Major Version: $MAJOR_VERSION"
-
-      #     # Fetch the latest compatible ChromeDriver version for the major version
-      #     CHROME_DRIVER_VERSION=$(curl -sSL "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$MAJOR_VERSION" | tr -d '\n')
-
-      #     echo "ChromeDriver version fetched: $CHROME_DRIVER_VERSION"
-
-      #     # Check if the version is empty or if it contains an error message
-      #     if [[ -z "$CHROME_DRIVER_VERSION" || "$CHROME_DRIVER_VERSION" == *"NoSuchKey"* ]]; then
-      #       echo "No valid ChromeDriver version found for Chrome version $CHROME_VERSION"
-      #       exit 1
-      #     fi
-
-      #     # Download and install ChromeDriver
-      #     wget "https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip"
-      #     unzip chromedriver_linux64.zip
-      #     sudo mv chromedriver /usr/local/bin/
-      #     sudo chmod +x /usr/local/bin/chromedriver
-
-      # - name: List Available ChromeDriver Versions
-      #   run: |
-      #     echo "Available ChromeDriver Versions:"
-      #     curl -sSL https://chromedriver.storage.googleapis.com/ | grep -oP 'chromedriver_\d+\.\d+\.\d+\.zip' | sort -V
-
       - name: Run tests
         run:
-          # python -m pytest --cache-clear -s -v --html=Reports/report.html testCases/Test.py
-          python -m pytest --cache-clear -s -v testCases/Test.py --browser firefox
-          # pytest
+          python -m pytest --cache-clear -s -v --html=Reports/report.html testCases/Test.py
 
       - name: Upload report
         uses: actions/upload-artifact@v4
