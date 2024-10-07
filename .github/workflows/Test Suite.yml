@@ -26,8 +26,8 @@ jobs:
 
       - name: Run tests
         run:
-          python -m pytest --cache-clear -s -v --html=Reports/report.html testCases/Test.py
-          # pytest
+          # python -m pytest --cache-clear -s -v --html=Reports/report.html testCases/Test.py
+          pytest
 
       - name: Upload report
         uses: actions/upload-artifact@v4
