@@ -10,6 +10,7 @@ def setup(browser):
     if browser == 'chrome':
         ops = webdriver.ChromeOptions()
         ops.add_argument('--headless')
+        ops.add_argument('--disable-gpu')
         ops.add_argument('--disable-notifications')
         driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install(), options=ops))
         driver.maximize_window()

@@ -1,13 +1,11 @@
 import os
-import time
-
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from PIL import Image
 
 class HomePage:
-    textBox_fullName_xpath = "//input[@id='name']"
+    textBox_fullName_css = 'input#name'
     btn_next_xpath = "//span[contains(text(),'Next')]"
     btn_sign_xpath = "//span[contains(text(),'Sign')]/parent::div[@class='label']"
     label_signed_document_xpath = "//span[contains(text(),'Document signed!')]"
@@ -16,7 +14,7 @@ class HomePage:
         self.driver = driver
 
     def enter_name(self, full_name):
-        self.driver.find_element(By.XPATH, self.textBox_fullName_xpath).send_keys(full_name)
+        self.driver.find_element(By.CSS_SELECTOR, self.textBox_fullName_css).send_keys(full_name)
 
     def click_next_btn(self):
         self.driver.find_element(By.XPATH, self.btn_next_xpath).click()

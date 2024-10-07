@@ -3,9 +3,6 @@ from configparser import ConfigParser
 config = ConfigParser()
 configFile= config.read('./Configurations/config.ini')
 
-# data = ConfigParser()
-# dataFile = config.read('./Data/data.txt')
-
 class ReadProperties:
     @staticmethod
     def getBaseUrl():
