@@ -25,36 +25,36 @@ jobs:
           python -m pip install -r requirements.txt
 
       - name: Install Chrome
-      run: |
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        sudo apt install ./google-chrome-stable_current_amd64.deb
+        run: |
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install ./google-chrome-stable_current_amd64.deb
 
-    - name: Check Chrome Version
-      id: chrome-version
-      run: |
-        CHROME_VERSION=$(google-chrome --version | cut -d ' ' -f 3)
-        echo "CHROME_VERSION=$CHROME_VERSION" >> $GITHUB_ENV
+      - name: Check Chrome Version
+        id: chrome-version
+        run: |
+          CHROME_VERSION=$(google-chrome --version | cut -d ' ' -f 3)
+          echo "CHROME_VERSION=$CHROME_VERSION" >> $GITHUB_ENV
 
-    - name: List Available ChromeDriver Versions
-      run: |
-        curl -sSL https://chromedriver.storage.googleapis.com/ | grep -oP 'chromedriver_\d+\.\d+\.\d+\.zip' | sort -V
+      - name: List Available ChromeDriver Versions
+        run: |
+          curl -sSL https://chromedriver.storage.googleapis.com/ | grep -oP 'chromedriver_\d+\.\d+\.\d+\.zip' | sort -V
 
-    - name: Fetch ChromeDriver
-      run: |
-        echo "Fetching ChromeDriver for version: $CHROME_VERSION"
-        MAJOR_VERSION=$(echo $CHROME_VERSION | cut -d '.' -f 1)
-        CHROME_DRIVER_VERSION=$(curl -sSL "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$MAJOR_VERSION" | tr -d '\n')
+      - name: Fetch ChromeDriver
+        run: |
+          echo "Fetching ChromeDriver for version: $CHROME_VERSION"
+          MAJOR_VERSION=$(echo $CHROME_VERSION | cut -d '.' -f 1)
+          CHROME_DRIVER_VERSION=$(curl -sSL "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$MAJOR_VERSION" | tr -d '\n')
 
-        if [[ -z "$CHROME_DRIVER_VERSION" || "$CHROME_DRIVER_VERSION" == *"NoSuchKey"* ]]; then
-          echo "No valid ChromeDriver version found for Chrome version $CHROME_VERSION"
-          exit 1
-        fi
+          if [[ -z "$CHROME_DRIVER_VERSION" || "$CHROME_DRIVER_VERSION" == *"NoSuchKey"* ]]; then
+            echo "No valid ChromeDriver version found for Chrome version $CHROME_VERSION"
+            exit 1
+          fi
 
-        echo "ChromeDriver version fetched: $CHROME_DRIVER_VERSION"
-        wget "https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip"
-        unzip chromedriver_linux64.zip
-        sudo mv chromedriver /usr/local/bin/
-        sudo chmod +x /usr/local/bin/chromedriver
+          echo "ChromeDriver version fetched: $CHROME_DRIVER_VERSION"
+          wget "https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip"
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/local/bin/
+          sudo chmod +x /usr/local/bin/chromedriver
 
       - name: Run tests
         run:
